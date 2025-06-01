@@ -1,0 +1,117 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs"
+Inherits="MTP8.Site1" %>
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <title>Aplicație ASP.NET</title>
+    <link href="css/my.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
+    <style>
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1e90ff;
+            padding: 0 20px;
+        }
+
+        .nav-left, .nav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            padding: 10px 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        #colorPicker {
+            border: none;
+            background: none;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            padding: 0;
+        }
+
+        #lblLoggedInUser {
+            color: white;
+            margin-left: 15px;
+        }
+    </style>
+</head>
+<body>
+    <form runat="server">
+        <header id="header"></header>
+
+        <nav id="nav">
+            <!-- Stânga: Navigare principală -->
+            <div class="nav-left">
+                <ul>
+                    <li><a href="WebForm4.aspx">Store</a></li>
+                    <li><a href="WebForm5.aspx">About us</a></li>
+                    <li><a href="WebForm6.aspx">Contact us</a></li>
+                </ul>
+            </div>
+
+            <!-- Dreapta: Paletă culoare, Login, Nume utilizator -->
+            <div class="nav-right">
+                <input type="color" id="colorPicker" title="Schimbă culoarea temei" />
+                <ul>
+                    <li><a href="WebForm2.aspx">Login</a></li>
+                </ul>
+                <asp:Label ID="lblLoggedInUser" runat="server" Font-Bold="True" Visible="false" />
+            </div>
+        </nav>
+
+        <div id="con">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server" />
+        </div>
+
+        <footer id="footer" style="color: white; padding: 20px;">
+            
+        </footer>
+    </form>
+
+    <script>
+        const colorPicker = document.getElementById('colorPicker');
+        const header = document.getElementById('header');
+        const nav = document.getElementById('nav');
+        const footer = document.getElementById('footer');
+
+        window.onload = function () {
+            const savedColor = localStorage.getItem('themeColor');
+            if (savedColor) {
+                applyThemeColor(savedColor);
+                colorPicker.value = savedColor;
+            } else {
+                colorPicker.value = "#1e90ff";
+            }
+        };
+
+        colorPicker.addEventListener('input', function () {
+            const selectedColor = this.value;
+            applyThemeColor(selectedColor);
+            localStorage.setItem('themeColor', selectedColor);
+        });
+
+        function applyThemeColor(color) {
+            header.style.backgroundColor = color;
+            nav.style.backgroundColor = color;
+            footer.style.backgroundColor = color;
+        }
+    </script>
+</body>
+</html>
